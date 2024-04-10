@@ -1,0 +1,15 @@
+.hide {
+  display: none !important;
+}
+
+.modal-hide {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+.modal-show {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.2s;
+}
