@@ -5,7 +5,7 @@ export function calendarDays(day, currentDayNumber, selectedMonth, currentMonth)
   class="py-1.5 text-gray-900 focus:z-10 ${
     day + 1 < currentDayNumber && selectedMonth === currentMonth
       ? 'cursor-not-allowed bg-gray-300'
-      : 'bg-white hover:bg-gray-100 btn--day'
+      : 'bg-white hover:bg-gray-200 btn--day'
   }"
 >
   <time

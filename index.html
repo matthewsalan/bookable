@@ -107,21 +107,21 @@
     </div>
 
     <div class="relative z-10 rep--modal--form modal-hide" aria-labelledby="rep-modal-form" role="dialog" aria-modal="true">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+      <div class="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity"></div>
       <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 overlay--modal--rep">
-          <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+          <div class="relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
             <form class="modal__rep-form">
               <div class="mx-auto flex h-16 w-16 items-center justify-center">
                 <img src="" alt="" class="rep--modal--avatar rounded-full" />
               </div>
               <div class="mt-3 text-center sm:mt-5">
                 <div class="mt-2">
-                  <p class="text-sm text-gray-700">
+                  <p class="text-sm text-white">
                     Your meeting with <span class="rep--modal--name"></span> on
                     <span class="next--appointment"></span>.
                   </p>
-                  <p class="text-xs text-gray-500 my-4">
+                  <p class="text-xs text-white my-4">
                     Add your info to book your slot:
                   </p>
                 </div>
@@ -136,7 +136,7 @@
                   </svg>
                 </div>
                 <input type="name" name="name" id="name" class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900
-                  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   placeholder="John Doe"/>
               </div>
               <div class="relative mt-6 rounded-md shadow-sm">
@@ -149,7 +149,7 @@
                   </svg>
                 </div>
                 <input type="email" name="email" id="email" class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900
-                  ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   placeholder="you@example.com"/>
               </div>
               <div class="relative mt-6 mb-12 rounded-md shadow-sm">
@@ -164,9 +164,8 @@
                     />
                   </svg>
                 </div>
-                <input type="phone" name="phone" id="phone"
-                  class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300
-                    placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                <input type="phone" name="phone" id="phone" class="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900
+                    placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   placeholder="404-400-4000"/>
               </div>
 
@@ -186,29 +185,29 @@
     </div>
 
     <div class="relative z-10 success--modal modal-hide" aria-labelledby="modal-success" role="dialog" aria-modal="true">
-      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+      <div class="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity"></div>
       <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 overlay--success">
-          <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl
+          <div class="relative transform overflow-hidden rounded-lg bg-gray-800 px-4 pb-4 pt-5 text-left shadow-xl
             transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
             <div>
-              <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+              <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white">
                 <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
               </div>
               <div class="mt-3 text-center sm:mt-5">
-                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Success!</h3>
+                <h3 class="text-base font-semibold leading-6 text-white" id="modal-title">Success!</h3>
                 <div class="mt-2">
-                  <p class="text-sm text-gray-500">Check your inbox for a confirmation email.</p>
+                  <p class="text-sm text-white">Check your inbox for a confirmation email.</p>
                 </div>
               </div>
             </div>
             <div class="mt-5 sm:mt-6">
               <button type="button" class="btn--modal--success inline-flex w-full justify-center rounded-md bg-teal-500 px-3 py-2 text-sm
-              font-semibold text-white shadow-sm hover:bg-teal-300 hover:text-gray-900">
-              Close
-            </button>
+                font-semibold text-white shadow-sm hover:bg-teal-300 hover:text-gray-900">
+                Close
+              </button>
             </div>
           </div>
         </div>
@@ -217,3 +216,97 @@
   </body>
 </html>
 
+
+<div class="relative z-10 modal-hide date--select--modal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 sm:items-center sm:p-0">
+      <div class="max-w-2xl mx-auto">
+        <form class="bg-gray-800 shadow-sm ring-1 ring-gray-900/5 sm:rounded-lg date--select--form">
+          <div class="px-4 py-6 sm:p-8">
+            <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div class="sm:col-span-4">
+                <label id="listbox-label" class="block text-sm font-medium leading-6 text-white">Team Member</label>
+                <div class="relative mt-2">
+                  <button type="button" class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left
+                    text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500
+                    sm:text-sm sm:leading-6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+                    <span class="flex items-center">
+                      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        alt="" class="h-5 w-5 flex-shrink-0 rounded-full">
+                      <span class="ml-3 block truncate">Tom Cook</span>
+                    </span>
+                    <span class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                      <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75
+                          0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0
+                          111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-span-full">
+                <label id="listbox-label" class="block text-sm font-medium leading-6 text-white mb-2">Time: </label>
+                <div class="space-x-2 space-y-2">
+                  <button type="button" class="btn--time--select rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900
+                    shadow-sm hover:bg-teal-300">9:00 AM</button>
+                  <button type="button" class="btn--time--select rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900
+                    shadow-sm hover:bg-teal-300">10:30 AM</button>
+                  <button type="button" class="btn--time--select rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900
+                    shadow-sm hover:bg-teal-300">11:15 AM</button>
+                  <button type="button" class="btn--time--select rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900
+                    shadow-sm hover:bg-teal-300">12:00 PM</button>
+                  <button type="button" class="btn--time--select rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900
+                    shadow-sm hover:bg-teal-300">1:30 PM</button>
+                  <button type="button" class="btn--time--select rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900
+                    shadow-sm hover:bg-teal-300">4:00 PM</button>
+                  <button type="button" class="btn--time--select rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900
+                    shadow-sm hover:bg-teal-300">5:30 PM</button>
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <label for="name" class="block text-sm font-medium leading-6 text-white">Name</label>
+                <div class="mt-2">
+                  <input type="text" name="name" id="name" autocomplete="name"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
+                    placeholder:text-gray-500 sm:text-sm sm:leading-6 pl-2" placeholder="John Doe">
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <label for="email" class="block text-sm font-medium leading-6 text-white">Email</label>
+                <div class="mt-2">
+                  <input type="text" name="email" id="email" autocomplete="email"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
+                    placeholder:text-gray-500 sm:text-sm sm:leading-6 pl-2" placeholder="you@example.com">
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <label for="email" class="block text-sm font-medium leading-6 text-white">Phone</label>
+                <div class="mt-2">
+                  <input type="text" name="email" id="email" autocomplete="email"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
+                    placeholder:text-gray-500 sm:text-sm sm:leading-6 pl-2" placeholder="404-400-4000">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-end gap-x-6 px-4 py-8 sm:px-8">
+            <button type="button" class="btn--date--select--cancel rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 border border-gray-500
+              hover:bg-gray-200">
+              Cancel
+            </button>
+            <button type="button" class="rounded-md bg-teal-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm
+              hover:bg-teal-300 hover:text-gray-900">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

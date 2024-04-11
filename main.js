@@ -9,6 +9,7 @@ const proxyUrl = new URL('https://corsproxy.io/?');
 const currentMonth = new Date().getMonth();
 let selectedMonth;
 let currentDayNumber;
+let currentSelectedTime;
 
 //////////// Selectors ///////////////
 
@@ -31,12 +32,16 @@ const btnCalBook = document.querySelector('.btn--cal--book');
 const btnRepFormCancel = document.querySelector('.btn--rep--form--cancel');
 const btnRepFormSubmit = document.querySelector('.btn--rep--form--submit');
 const btnModalSuccess = document.querySelector('.btn--modal--success');
+const btnDateSelectCancel = document.querySelector('.btn--date--select--cancel');
+const btnTimeSelect = document.querySelectorAll('.btn--time--select');
 
 // Modals
 const repModalForm = document.querySelector('.rep--modal--form');
 const overlayModalRep = document.querySelector('.overlay--modal--rep');
 const successModal = document.querySelector('.success--modal');
 const overlaySuccess = document.querySelector('.overlay--success');
+const dateSelectModal = document.querySelector('.date--select--modal');
+const dateSelectForm = document.querySelector('.date--select--form');
 
 // Forms
 const repModalFormData = document.querySelector('.modal__rep-form');
@@ -45,8 +50,14 @@ const repModalFormData = document.querySelector('.modal__rep-form');
 
 window.addEventListener(
   'DOMContentLoaded',
-  initializeCalendar(currentMonth),
-  initializeRepList()
+  _initializeCalendar(currentMonth),
+  _initializeRepList(),
+  btnTimeSelect.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      _applySelectedTimeStyles(e);
+    })
+  })
 );
 
 btnNextMonth.addEventListener('click', function (e) {
@@ -68,6 +79,10 @@ btnRepFormSubmit.addEventListener('click', function (e) {
 
 btnModalSuccess.addEventListener('click', toggleSuccessModal);
 
+btnCalBook.addEventListener('click', toggleDateSelectModalForm);
+
+btnDateSelectCancel.addEventListener('click', toggleDateSelectModalForm);
+
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && repModalForm.classList.contains('modal-show'))
     toggleRepModal();
@@ -83,7 +98,9 @@ overlaySuccess.addEventListener('click', function (e) {
 
 ////////////// Methods ///////////////
 
-function initializeCalendar(month) {
+// Private
+
+function _initializeCalendar(month) {
   selectedMonth = months[month];
   monthLabel.textContent = selectedMonth;
   if (currentMonth + 1 === months.indexOf(selectedMonth) + 1) {
@@ -91,20 +108,10 @@ function initializeCalendar(month) {
   } else {
     btnPreviousMonth.classList.remove('hide');
   }
-  setCalendarDays();
+  _setCalendarDays();
 }
 
-function getNextMonth() {
-  initializeCalendar(months.indexOf(selectedMonth) + 1);
-  showLoader();
-}
-
-function getPreviousMonth() {
-  initializeCalendar(months.indexOf(selectedMonth) - 1);
-  showLoader();
-}
-
-function setCalendarDays() {
+function _setCalendarDays() {
   let daysInMonth = moment().month(selectedMonth).daysInMonth();
   currentDayNumber = new Date().getDate();
 
@@ -118,47 +125,80 @@ function setCalendarDays() {
     });
 }
 
-function showLoader() {
+function _showLoader() {
   calDaysContainer.innerHTML = null;
-  toggleCalendarStyles();
+  _toggleCalendarStyles();
   setTimeout(function () {
-    setCalendarDays();
-    toggleCalendarStyles();
+    _setCalendarDays();
+    _toggleCalendarStyles();
   }, 800);
 }
 
-function toggleCalendarStyles() {
+function _toggleCalendarStyles() {
   calWeekLabel.classList.toggle('hide');
   calDaysContainer.classList.toggle('hide');
   calLoaderContainer.classList.toggle('hide');
   btnCalBook.classList.toggle('hide');
 }
 
-async function initializeRepList() {
+async function _initializeRepList() {
   try {
     const response = await fetch(proxyUrl + 'https://dummyjson.com/users/filter?key=gender&value=female&limit=5');
-    buildPepList(await response.json());
+    _buildPepList(await response.json());
   } catch (error) {
-    fetchRepError(error);
+    _fetchRepError(error);
   }
   document.querySelectorAll('.btn--rep').forEach(btn => btn.addEventListener('click', function (e) {
     bookRep(e)
   }));
 }
 
-function fetchRepError(error) {
+function _fetchRepError(error) {
   repsContainer.insertAdjacentHTML('afterbegin',
     `<p class="border border-gray-200 p-12 mt-12 text-lg text-white">Unable to load sales reps, please try again later.</p>`
   );
 }
 
-function buildPepList(resp) {
+function _buildPepList(resp) {
   resp.users.forEach((user, ind) => {
     repsContainer.insertAdjacentHTML(
       'afterbegin',
       repList(user, ind, repImages, moment(`${currentDayNumber}`, 'DD').format('Do'), months[currentMonth])
     );
   });
+}
+
+function _handleFormSuccess() {
+  overlayModalRep.classList.toggle('animate-pulse');
+  toggleRepModal();
+  toggleSuccessModal();
+}
+
+function _applySelectedTimeStyles(e) {
+  if (currentSelectedTime) {
+    console.log('here');
+    currentSelectedTime.classList.toggle('bg-white');
+    currentSelectedTime.classList.toggle('bg-teal-300');
+    currentSelectedTime = null;
+  }
+
+  if (e) {
+    currentSelectedTime = e.target;
+    currentSelectedTime.classList.toggle('bg-white');
+    currentSelectedTime.classList.toggle('bg-teal-300');
+  }
+}
+
+// Public
+
+function getNextMonth() {
+  _initializeCalendar(months.indexOf(selectedMonth) + 1);
+  _showLoader();
+}
+
+function getPreviousMonth() {
+  _initializeCalendar(months.indexOf(selectedMonth) - 1);
+  _showLoader();
 }
 
 function bookRep(e) {
@@ -197,14 +237,15 @@ async function submitRepModalForm() {
         },
       }
     );
-    handleFormSuccess(await response.json());
+    _handleFormSuccess(await response.json());
   } catch (error) {
     console.log(error);
   }
 }
 
-function handleFormSuccess() {
-  overlayModalRep.classList.toggle('animate-pulse');
-  toggleRepModal();
-  toggleSuccessModal();
+function toggleDateSelectModalForm() {
+  dateSelectForm.reset();
+  dateSelectModal.classList.toggle('modal-hide');
+  dateSelectModal.classList.toggle('modal-show');
+  _applySelectedTimeStyles();
 }
