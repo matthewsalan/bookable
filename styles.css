@@ -13,3 +13,15 @@
   opacity: 1;
   transition: all 0.2s;
 }
+
+.dropdown_show {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.2s;
+}
+
+.dropdown_hide {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}

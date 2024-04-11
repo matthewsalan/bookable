@@ -1,7 +1,7 @@
 'use-strict';
 
 import { months, repImages } from './utils.js';
-import { calendarDays, repList } from './literals.js';
+import { calendarDays, repList, repDropdownItem } from './literals.js';
 
 ///////////// App Initialization ///////////////
 
@@ -19,11 +19,15 @@ const calWeekLabel = document.querySelector('.calendar--week--label');
 const repModalName = document.querySelector('.rep--modal--name');
 const nextAppointment = document.querySelector('.next--appointment');
 const repModalAvatar = document.querySelector('.rep--modal--avatar');
+const currentRepAvatar = document.querySelector('.current--rep--avatar');
+const currentRepName = document.querySelector('.current--rep--name');
+const selectedDate = document.querySelector('.selected--date');
 
 // Containers
 const calDaysContainer = document.querySelector('.cal--days--container');
 const calLoaderContainer = document.querySelector('.cal--loader--container');
 const repsContainer = document.querySelector('.reps--container');
+const repDropDownContainer = document.querySelector('.rep--dropdown--container');
 
 // Buttons
 const btnNextMonth = document.querySelector('.btn--next--month');
@@ -33,7 +37,9 @@ const btnRepFormCancel = document.querySelector('.btn--rep--form--cancel');
 const btnRepFormSubmit = document.querySelector('.btn--rep--form--submit');
 const btnModalSuccess = document.querySelector('.btn--modal--success');
 const btnDateSelectCancel = document.querySelector('.btn--date--select--cancel');
+const btnDateSelectSubmit = document.querySelector('.btn--date--select--submit');
 const btnTimeSelect = document.querySelectorAll('.btn--time--select');
+const btnRepDropdown = document.querySelector('.btn--rep--dropdown');
 
 // Modals
 const repModalForm = document.querySelector('.rep--modal--form');
@@ -42,6 +48,7 @@ const successModal = document.querySelector('.success--modal');
 const overlaySuccess = document.querySelector('.overlay--success');
 const dateSelectModal = document.querySelector('.date--select--modal');
 const dateSelectForm = document.querySelector('.date--select--form');
+const overlayDateSelect = document.querySelector('.overlay--date--select');
 
 // Forms
 const repModalFormData = document.querySelector('.modal__rep-form');
@@ -57,7 +64,8 @@ window.addEventListener(
       e.stopPropagation();
       _applySelectedTimeStyles(e);
     })
-  })
+  }),
+  _addCalendarDaysEventListeners()
 );
 
 btnNextMonth.addEventListener('click', function (e) {
@@ -77,15 +85,26 @@ btnRepFormSubmit.addEventListener('click', function (e) {
   submitRepModalForm();
 });
 
+btnDateSelectSubmit.addEventListener('click', function (e) {
+  e.preventDefault();
+  submitDateSelectForm();
+});
+
 btnModalSuccess.addEventListener('click', toggleSuccessModal);
 
-btnCalBook.addEventListener('click', toggleDateSelectModalForm);
+btnCalBook.addEventListener('click', function () {
+  _setDefaultDropdown();
+  toggleDateSelectModalForm();
+});
 
 btnDateSelectCancel.addEventListener('click', toggleDateSelectModalForm);
 
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && repModalForm.classList.contains('modal-show'))
     toggleRepModal();
+
+  if (e.key === 'Escape' && dateSelectModal.classList.contains('modal-show'))
+    toggleDateSelectModalForm();
 });
 
 overlayModalRep.addEventListener('click', function (e) {
@@ -94,6 +113,14 @@ overlayModalRep.addEventListener('click', function (e) {
 
 overlaySuccess.addEventListener('click', function (e) {
   if (e.target.classList.contains('overlay--success')) toggleSuccessModal();
+});
+
+overlayDateSelect.addEventListener('click', function (e) {
+  if (e.target.classList.contains('overlay--date--select')) toggleDateSelectModalForm();
+});
+
+btnRepDropdown.addEventListener('click', function () {
+  _applyDropdownStyles();
 });
 
 ////////////// Methods ///////////////
@@ -125,12 +152,23 @@ function _setCalendarDays() {
     });
 }
 
+function _addCalendarDaysEventListeners() {
+  document.querySelectorAll('.btn--day').forEach(day => {
+    day.addEventListener('click', function (e) {
+      let date = e.currentTarget.querySelector('time').textContent;
+      _setDefaultDropdown(date);
+      toggleDateSelectModalForm();
+    });
+  });
+}
+
 function _showLoader() {
   calDaysContainer.innerHTML = null;
   _toggleCalendarStyles();
   setTimeout(function () {
     _setCalendarDays();
     _toggleCalendarStyles();
+    _addCalendarDaysEventListeners();
   }, 800);
 }
 
@@ -151,6 +189,9 @@ async function _initializeRepList() {
   document.querySelectorAll('.btn--rep').forEach(btn => btn.addEventListener('click', function (e) {
     bookRep(e)
   }));
+  document.querySelectorAll('.btn--selected--rep').forEach(btn => btn.addEventListener('click', function (e) {
+    _setSelectedRep(e.currentTarget);
+  }));
 }
 
 function _fetchRepError(error) {
@@ -165,18 +206,22 @@ function _buildPepList(resp) {
       'afterbegin',
       repList(user, ind, repImages, moment(`${currentDayNumber}`, 'DD').format('Do'), months[currentMonth])
     );
+    _setRepDropdownItems(user, repImages[ind]);
   });
 }
 
-function _handleFormSuccess() {
-  overlayModalRep.classList.toggle('animate-pulse');
-  toggleRepModal();
+function _handleFormSuccess(overlay) {
+  overlay.classList.toggle('animate-pulse');
+  if (overlay.classList.contains('overlay--modal--rep')) {
+    toggleRepModal();
+  } else {
+    toggleDateSelectModalForm();
+  }
   toggleSuccessModal();
 }
 
 function _applySelectedTimeStyles(e) {
   if (currentSelectedTime) {
-    console.log('here');
     currentSelectedTime.classList.toggle('bg-white');
     currentSelectedTime.classList.toggle('bg-teal-300');
     currentSelectedTime = null;
@@ -187,6 +232,31 @@ function _applySelectedTimeStyles(e) {
     currentSelectedTime.classList.toggle('bg-white');
     currentSelectedTime.classList.toggle('bg-teal-300');
   }
+}
+
+function _applyDropdownStyles() {
+  document.querySelector('ul').classList.toggle('dropdown_hide');
+  document.querySelector('ul').classList.toggle('dropdown_show');
+}
+
+function _setSelectedRep(target) {
+  currentRepAvatar.src = target.querySelector('img').src;
+  currentRepName.textContent = target.querySelector('span').textContent;
+  _applyDropdownStyles();
+}
+
+function _setRepDropdownItems(user, avatar) {
+  repDropDownContainer.insertAdjacentHTML('afterbegin', repDropdownItem(user, avatar));
+}
+
+function _setDefaultDropdown(date) {
+  if (date) {
+    selectedDate.textContent = `${selectedMonth} `.concat(moment(`${date}`, 'DD').format('Do'));
+  } else {
+    selectedDate.textContent = `${selectedMonth} `.concat(moment(`${currentDayNumber}`, 'DD').format('Do'));
+  }
+  currentRepAvatar.src = document.querySelector('.reps--container').children[0].querySelector('img').src;
+  currentRepName.textContent = document.querySelector('.reps--container').children[0].querySelector('h3').outerText;
 }
 
 // Public
@@ -237,7 +307,31 @@ async function submitRepModalForm() {
         },
       }
     );
-    _handleFormSuccess(await response.json());
+    await response.json();
+    _handleFormSuccess(overlayModalRep);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function submitDateSelectForm() {
+  overlayDateSelect.classList.toggle('animate-pulse');
+  const formData = new FormData(dateSelectForm);
+  try {
+    const response = await fetch(
+      proxyUrl + 'https://staging.leadjar.app/bookable/send_email',
+      {
+        method: 'POST',
+        body: JSON.stringify(Object.fromEntries(formData)),
+        headers: {
+          'Content-Type': 'application/json',
+          'Bookable-Signature':
+            '2d524326c503e5bf60923f8e70cfa987bd3b4793dd4dce291a6dc5be8ec956f0',
+        },
+      }
+    );
+    await response.json();
+    _handleFormSuccess(overlayDateSelect);
   } catch (error) {
     console.log(error);
   }

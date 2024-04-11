@@ -71,3 +71,16 @@ export function repList(user, ind, repImages, currentDayNumber, currentMonth) {
 Array.prototype.random = function () {
   return this[Math.floor((Math.random()*this.length))];
 }
+
+export function repDropdownItem(user, avatar) {
+  return `
+    <li class="btn--selected--rep text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:bg-teal-200" id="listbox-option-0" role="option">
+      <div class="flex items-center">
+        <img
+          src="${avatar}"
+          alt="" class="h-8 w-8 flex-shrink-0 rounded-full">
+        <span class="font-normal ml-3 block truncate">${user.firstName} ${user.lastName}</span>
+      </div>
+    </li>
+  `;
+}
