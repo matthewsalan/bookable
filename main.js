@@ -22,6 +22,7 @@ const repModalAvatar = document.querySelector('.rep--modal--avatar');
 const currentRepAvatar = document.querySelector('.current--rep--avatar');
 const currentRepName = document.querySelector('.current--rep--name');
 const selectedDate = document.querySelector('.selected--date');
+const calNav = document.querySelector('.cal--nav');
 
 // Containers
 const calDaysContainer = document.querySelector('.cal--days--container');
@@ -70,11 +71,13 @@ window.addEventListener(
 
 btnNextMonth.addEventListener('click', function (e) {
   e.preventDefault();
+  calNav.classList.toggle('hide');
   getNextMonth();
 })
 
 btnPreviousMonth.addEventListener('click', function (e) {
   e.preventDefault();
+  calNav.classList.toggle('hide');
   getPreviousMonth();
 });
 
@@ -169,6 +172,7 @@ function _showLoader() {
     _setCalendarDays();
     _toggleCalendarStyles();
     _addCalendarDaysEventListeners();
+    calNav.classList.toggle('hide');
   }, 800);
 }
 
