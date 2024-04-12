@@ -7,6 +7,7 @@ A calendar based booking app written in pure Javascript that sends real booking 
 Select a sales rep from the list to book the next available time or choose a time and date from the calendar.
 
 ### Tooling
+* API endpoint to send emails in Rails
 * Javascript
 * Tailwind CSS
 * Tailwind UI
