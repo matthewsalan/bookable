@@ -5,7 +5,7 @@ import { calendarDays, repList, repDropdownItem } from './literals.js';
 
 ///////////// App Initialization ///////////////
 
-const proxyUrl = new URL('https://corsproxy.io/?=');
+const proxyUrl = new URL('https://corsproxy.io/?url=');
 const currentMonth = new Date().getMonth();
 let selectedMonth;
 let currentDayNumber;
