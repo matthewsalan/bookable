@@ -185,7 +185,10 @@ function _toggleCalendarStyles() {
 
 async function _initializeRepList() {
   try {
-    const response = await fetch(proxyUrl + encodeURIComponent('https://dummyjson.com/users/filter?key=gender&value=female&limit=5'));
+    const response = await fetch('https://dummyjson.com/users/filter?key=gender&value=female&limit=5');
+    if (!response.ok) {
+      throw new Error(`DummyJSON request failed: ${response.status}`);
+    }
     _buildPepList(await response.json());
   } catch (error) {
     _fetchRepError(error);
